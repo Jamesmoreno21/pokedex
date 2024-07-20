@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.pokemon-cursor {
+    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=14474'), auto;
+}
+
+.pokemon-image {
+    -webkit-filter: drop-shadow(1px 1px 0 black) drop-shadow(-1px 1px 0 black) drop-shadow(1px -1px 0 black) drop-shadow(-1px -1px 0 black);
+
+    filter: drop-shadow(1px 1px 0 black) drop-shadow(-1px 1px 0 black) drop-shadow(1px -1px 0 black) drop-shadow(-1px -1px 0 black);
+}
