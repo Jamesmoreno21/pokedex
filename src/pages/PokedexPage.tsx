@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PageLayout } from "../layouts/PageLayout";
 import { usePokemonQuery } from "../lib/api/queries/usePokemonsQuery";
 import { usePokemonsInfoQuery } from "../lib/api/queries/usePokemonsInfoQuery";
@@ -13,11 +13,13 @@ import { Pokedex } from "../components/Pokedex/Pokedex";
 import toast from "react-hot-toast";
 
 export const PokedexPage = () => {
+  const navigate = useNavigate();
   const { pokemonName } = useParams<{ pokemonName: string }>();
 
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [previousPokemon, setPreviousPokemon] = useState<string | null>(null);
   const [nextPokemon, setNextPokemon] = useState<string | null>(null);
+
   const {
     isLoading,
     isError,
@@ -34,16 +36,19 @@ export const PokedexPage = () => {
 
   const {
     data: pokemonDescription,
-    isLoading: isLoadingDescription,
-    isError: isErrorDescription,
-  } = usePokemonDescriptionQuery(pokemonName?.split("-")[0] || "");
+    isLoading: isLoadingpokemonDescription,
+    isError: ispokemonDescriptionError,
+  } = usePokemonDescriptionQuery( pokemon?.id.toString() || "");
+
+
+
 
   useEffect(() => {
     const favorites = getFavoritePokemons();
-
     if (favorites) {
       setIsFavorite(favorites.includes(pokemonName));
     }
+
   }, [pokemonName]);
 
   useEffect(() => {
@@ -87,12 +92,17 @@ export const PokedexPage = () => {
     }
   };
 
-  if (isLoading || isLoadingInfo || isLoadingDescription) {
-    return <PageLayout><PokedexSkeleton /></PageLayout>;
+  if (isLoading || isLoadingInfo || isLoadingpokemonDescription) {
+    return (
+      <PageLayout>
+        <PokedexSkeleton />
+      </PageLayout>
+    );
   }
 
-  if (isError || isInfoError || isErrorDescription) {
+  if (isError || isInfoError || ispokemonDescriptionError) {
     toast.error("Error fetching data", { id: "error-fetching-data" });
+    navigate("/");
     return <PageLayout>Error</PageLayout>;
   }
 
@@ -104,7 +114,7 @@ export const PokedexPage = () => {
         changeFavorite={handleFavoriteChange}
         previousPokemon={previousPokemon}
         nextPokemon={nextPokemon}
-        pokemonDescription={pokemonDescription}
+        pokemonDescription={pokemonDescription!}
       />
     </PageLayout>
   );

@@ -3,7 +3,7 @@ import { capitialize } from "../../lib/utils";
 import { TypeBadge } from "./TypeBadge";
 interface PokedexBodyProps {
   pokemon: Pokemon;
-  description: {
+  description?: {
     flavor_text_entries: {
       flavor_text: string;
       language: {
@@ -14,7 +14,7 @@ interface PokedexBodyProps {
 }
 
 export const PokedexBody = ({ pokemon, description }: PokedexBodyProps) => {
-  const englishDescription = description.flavor_text_entries.find(
+  const englishDescription = description?.flavor_text_entries?.find(
     (entry) => entry.language.name === "en"
   );
 
