@@ -38,7 +38,7 @@ export const PokedexPage = () => {
     data: pokemonDescription,
     isLoading: isLoadingpokemonDescription,
     isError: ispokemonDescriptionError,
-  } = usePokemonDescriptionQuery( pokemon?.id.toString() || "");
+  } = usePokemonDescriptionQuery( pokemon?.species?.name || "");
 
 
 
