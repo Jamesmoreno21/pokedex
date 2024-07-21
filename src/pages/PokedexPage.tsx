@@ -38,17 +38,13 @@ export const PokedexPage = () => {
     data: pokemonDescription,
     isLoading: isLoadingpokemonDescription,
     isError: ispokemonDescriptionError,
-  } = usePokemonDescriptionQuery( pokemon?.species?.name || "");
-
-
-
+  } = usePokemonDescriptionQuery(pokemon?.species?.name || "");
 
   useEffect(() => {
     const favorites = getFavoritePokemons();
     if (favorites) {
       setIsFavorite(favorites.includes(pokemonName));
     }
-
   }, [pokemonName]);
 
   useEffect(() => {

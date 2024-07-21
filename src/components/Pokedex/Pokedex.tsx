@@ -32,7 +32,7 @@ export const Pokedex = ({
   pokemonDescription,
 }: PokedexProps) => {
 
-  const sprite = pokemon?.sprites.front_default || noPokemonImage;
+  const sprite = pokemon?.sprites?.front_default || noPokemonImage;
   return (
     <PokedexLayout>
       <PokedexHeader
