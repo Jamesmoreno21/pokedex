@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { usePokemonsInfoQuery } from "../lib/api/queries/usePokemonsInfoQuery";
 import { usePokemonsQuery } from "../lib/api/queries/usePokemonsQuery";
 import { PokeGrid } from "../components/PokeGrid/PokeGrid";
-import { Pokemon } from "../lib/types";
 import toast from "react-hot-toast";
 import { useCallback, useEffect, useState } from "react";
 import { pageSize } from "../lib/params";
@@ -27,14 +26,12 @@ export const PokeGridPage = () => {
   const [favoritesHasChanged, setFavoritesHasChanged] = useState(false);
   const [searchValue, setSearchValue] = useState<string>("");
   const [namesToFetch, setNamesToFetch] = useState<string[]>([]);
-  const {
-    data: pokemons,
-    isLoading,
-    isError,
-  } = usePokemonsQuery(
+  const pokemonsQueries = usePokemonsQuery(
     { names: namesToFetch },
     { enabled: !!info && namesToFetch.length > 0 }
   );
+
+  const isError = pokemonsQueries.some((pokemon) => pokemon.isError);
 
   if (isInfoError || isError) {
     toast.error("Error fetching data", { id: "error-fetching-data" });
@@ -172,11 +169,10 @@ export const PokeGridPage = () => {
   return (
     <PageLayout>
       <PokeGrid
-        pokemons={pokemons as Pokemon[]}
+        pokemonsQueries={pokemonsQueries}
         info={info ?? { count: 0 }}
         isFavoritePokemon={isFavoritePokemon}
         onFavoriteChange={onFavoriteChange}
-        isLoading={isLoading}
         isInfoLoading={isInfoLoading}
         currentPage={currentPage}
         totalPages={totalPages}

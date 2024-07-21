@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 import opening from "../assets/sounds/opening.mp3";
 import inSound from "../assets/sounds/in.mp3";
 import out from "../assets/sounds/out.mp3";
@@ -23,20 +23,26 @@ const AudioProvider = ({ children }: { children: React.ReactNode }) => {
     out: new Audio(out),
   });
   const [isSoundAllowed, setIsSoundAllowed] = useState(true);
-
+  const setDefaultVolume = useCallback(() => {
+    audios.opening.volume = 0.7;
+    audios.in.volume = 0.7;
+    audios.out.volume = 0.7;
+  }, [audios]);
   useEffect(() => {
     if (!isSoundAllowed) {
       audios.opening.pause();
     } else {
+      setDefaultVolume();
       audios.opening.play();
     }
-  }, [isSoundAllowed, audios]);
+  }, [isSoundAllowed, audios, setDefaultVolume]);
 
   useEffect(() => {
-    audios.opening.volume = 0.1;
+    setDefaultVolume();
     audios.opening.loop = true;
+
     audios.opening.play();
-  }, [audios]);
+  }, [audios, setDefaultVolume]);
 
   const playSound = async ({ id }: SoundType) => {
     if (!isSoundAllowed) return;

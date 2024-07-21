@@ -44,7 +44,7 @@ export const usePokemonsQuery = (
 ) => {
   const names = params?.names || [];
 
-  const pokemons = useQueries(
+  return useQueries(
     names.map((index) => {
       return {
         queryKey: ["pokemon", { name: index }],
@@ -53,9 +53,5 @@ export const usePokemonsQuery = (
       };
     })
   );
-  return {
-    isLoading: pokemons.some((pokemon) => pokemon.isLoading),
-    isError: pokemons.some((pokemon) => pokemon.isError),
-    data: pokemons.map((pokemon) => pokemon.data),
-  };
+  
 };

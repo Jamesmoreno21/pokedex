@@ -1,15 +1,13 @@
-import { Pokemon } from "../../lib/types";
-import { PokemonGridSkeleton } from "./Skeletons/PokemonGridSkeleton";
 import { PokemonList } from "./PokemonList";
 import { Pagination } from "../UI/Pagination";
 import { PokeGridHeader } from "./PokeGridHeader";
+import { usePokemonsQuery } from "../../lib/api/queries/usePokemonsQuery";
 
 interface PokeGridProps {
-  pokemons: Pokemon[];
+  pokemonsQueries: ReturnType<typeof usePokemonsQuery>;
   info: { count: number };
   isFavoritePokemon: (pokemonName: string) => boolean;
   onFavoriteChange: (pokemonName: string) => void;
-  isLoading: boolean;
   isInfoLoading: boolean;
   currentPage: number;
   totalPages: number;
@@ -21,11 +19,10 @@ interface PokeGridProps {
 }
 
 export const PokeGrid = ({
-  pokemons,
+  pokemonsQueries,
   info,
   isFavoritePokemon,
   onFavoriteChange,
-  isLoading,
   isInfoLoading,
   currentPage,
   totalPages,
@@ -34,7 +31,6 @@ export const PokeGrid = ({
   filterPokemonsByIdAndName,
   showFavoritesAndFilter,
   searchValue,
-  
 }: PokeGridProps) => {
   return (
     <>
@@ -45,17 +41,13 @@ export const PokeGrid = ({
         isInfoLoading={isInfoLoading}
         showFavorites={showFavorites}
         searchValue={searchValue}
-        
       />
-      {isInfoLoading || isLoading ? (
-        <PokemonGridSkeleton />
-      ) : (
-        <PokemonList
-          pokemons={pokemons as Pokemon[]}
-          isPokemonFavorite={isFavoritePokemon}
-          onFavoriteChange={onFavoriteChange}
-        />
-      )}
+
+      <PokemonList
+        pokemonsQueries={pokemonsQueries}
+        isPokemonFavorite={isFavoritePokemon}
+        onFavoriteChange={onFavoriteChange}
+      />
 
       <Pagination
         page={currentPage}

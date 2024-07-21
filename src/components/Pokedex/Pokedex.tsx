@@ -5,6 +5,7 @@ import { PokedexBody } from "./PokedexBody";
 import { PokedexHeader } from "./PokedexHeader";
 import { PokedexImage } from "./PokedexImage";
 import { PokedexNavigationButtons } from "./PokedexNavigationButtons";
+import noPokemonImage from "../../assets/images/no-pokemon.png";
 
 interface PokedexProps {
   isFavorite: boolean;
@@ -30,6 +31,8 @@ export const Pokedex = ({
   nextPokemon,
   pokemonDescription,
 }: PokedexProps) => {
+
+  const sprite = pokemon?.sprites.front_default || noPokemonImage;
   return (
     <PokedexLayout>
       <PokedexHeader
@@ -39,7 +42,7 @@ export const Pokedex = ({
         onFavoriteChange={() => changeFavorite(pokemon?.name || "")}
       />
       <PokedexImage
-        src={pokemon?.sprites.front_default || ""}
+        src={sprite}
         alt={pokemon?.name || ""}
       />
 

@@ -1,9 +1,10 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { PokeGrid } from "./PokeGrid";
-import { Pokemon } from "../../lib/types";
 import { BrowserRouter } from "react-router-dom";
 import { AudioProvider } from "../../providers/AudioProvider";
+import { usePokemonsQuery } from "../../lib/api/queries/usePokemonsQuery";
+import React from "react";
 
 const pokemonsExample = [
   {
@@ -27,6 +28,10 @@ const pokemonsExample = [
     weight: 69,
     types: [],
     abilities: [],
+    species: {
+      name: "bulbasaur",
+      url: "https://pokeapi.co/api/v2/pokemon-species/1",
+    },
   },
   {
     id: 421,
@@ -49,6 +54,11 @@ const pokemonsExample = [
     weight: 93,
     types: [],
     abilities: [],
+    species: {
+      name: "cherrim",
+      url: "https://pokeapi.co/api/v2/pokemon-species/421"
+    },
+
   },
   {
     id: 872,
@@ -71,12 +81,16 @@ const pokemonsExample = [
     weight: 35,
     types: [],
     abilities: [],
+    species: {
+      name: "snom",
+      url: "https://pokeapi.co/api/v2/pokemon-species/872/",
+    },
   },
 ];
 
 describe("PokeGrid", () => {
   test("should render", () => {
-    const pokemons: Pokemon[] = pokemonsExample;
+    const pokemons = pokemonsExample;
     const info = {
       count: 3,
       results: [
@@ -93,6 +107,11 @@ describe("PokeGrid", () => {
           url: "https://pokeapi.co/api/v2/pokemon/872/",
         },
       ],
+      species: {
+        name: "bulbasaur",
+        url: "https://pokeapi.co/api/v2/pokemon-species/1/",
+      },
+
     };
 
     const isFavoritePokemon = (pokemonName: string) =>
@@ -106,14 +125,29 @@ describe("PokeGrid", () => {
     const showFavorites = false;
     const filterPokemonsByIdAndName = () => {};
     const showFavoritesAndFilter = () => {};
+    
+    const pokemonsQueries: ReturnType<typeof usePokemonsQuery> = [
+      {
+        data: pokemons[0],
+        isLoading,
+      },
+      {
+        data: pokemons[1],
+        isLoading,
+      },
+      {
+        data: pokemons[2],
+        isLoading,
+      },
+    ] as any;
+
 
     render(
       <PokeGrid
-        pokemons={pokemons}
+        pokemonsQueries={pokemonsQueries}
         info={info}
         isFavoritePokemon={isFavoritePokemon}
         onFavoriteChange={onFavoriteChange}
-        isLoading={isLoading}
         isInfoLoading={isInfoLoading}
         currentPage={currentPage}
         totalPages={totalPages}

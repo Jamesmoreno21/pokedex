@@ -5,49 +5,53 @@ import { Button } from "@headlessui/react";
 import { StarIcon } from "@heroicons/react/16/solid";
 import { ButtonWithSound } from "../UI/ButtonWithSound";
 import { capitialize, parseIdToFourDigits } from "../../lib/utils";
+import { CardSkeleton } from "./Skeletons/CardSkeleton";
+import { usePokemonQuery } from "../../lib/api/queries/usePokemonsQuery";
+import noPokemonImage from "../../assets/images/no-pokemon.png";
 
 interface PokemonCardProps {
-  pokemon: Pokemon;
+  pokemonQuery: ReturnType<typeof usePokemonQuery>;
   isFavorite: (pokemonName: string) => boolean;
   changeFavorite: (pokemonName: string) => void;
 }
 
 export const PokemonCard = ({
-  pokemon,
+  pokemonQuery,
   isFavorite,
   changeFavorite,
 }: PokemonCardProps) => {
-
   const navigate = useNavigate();
-  
+  const isLoading = pokemonQuery.isLoading;
+  if (isLoading) {
+    return <CardSkeleton />;
+  }
+  const pokemon = pokemonQuery.data as Pokemon;
+
   const navigateToDetails = () => {
     navigate(`/pokedex/${pokemon.name}`);
-  }
-
-  
+  };
+  const sprite = pokemon.sprites.front_default || noPokemonImage;
 
   return (
     <div className="relative bg-white p-4 rounded-md hover:shadow-md transition duration-300 hover:scale-105 w-full shadow-md">
-      <div className="w-full bg-slate-200 rounded-lg">
-        <img
-          className="h-32 w-32 object-cover rounded-md mx-auto "
-          src={pokemon.sprites.front_default}
-          alt={pokemon.name}
-        />
+      <div className=" bg-slate-200 rounded-lg py-2 w-full flex items-center justify-center">
+        <img className="rounded-md h-40 w-auto" src={sprite} alt={pokemon.name} />
       </div>
 
       <Button
         className="tooltip tooltip-left tooltip-warning absolute top-2 right-2  text-white p-2 bg-white rounded-full border-2 border-gray-400 z-50"
         onClick={() => changeFavorite(pokemon.name)}
-        data-tip={isFavorite(pokemon.name) ? "Remove from favorites" : "Add to favorites"}
+        data-tip={
+          isFavorite(pokemon.name)
+            ? "Remove from favorites"
+            : "Add to favorites"
+        }
       >
-
-          <StarIcon
-            className={`w-6 h-6 ${
-              isFavorite(pokemon.name) ? "text-yellow-500" : "text-gray-500"
-            }`}
-          />
-        
+        <StarIcon
+          className={`w-6 h-6 ${
+            isFavorite(pokemon.name) ? "text-yellow-500" : "text-gray-500"
+          }`}
+        />
       </Button>
 
       <div className="flex justify-between items-center mt-2 border-t-2 border-gray-200 pt-2 flex-wrap text-gray-700">
