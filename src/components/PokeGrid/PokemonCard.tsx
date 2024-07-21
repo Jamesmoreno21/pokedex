@@ -6,7 +6,7 @@ import { ButtonWithSound } from "../UI/ButtonWithSound";
 import { capitialize, parseIdToFourDigits } from "../../lib/utils";
 import { CardSkeleton } from "./Skeletons/CardSkeleton";
 import { usePokemonQuery } from "../../lib/api/queries/usePokemonsQuery";
-import noPokemonImage from "../../assets/images/no-pokemon?.png";
+import noPokemonImage from "../../assets/images/no-pokemon.png";
 
 interface PokemonCardProps {
   pokemonQuery: ReturnType<typeof usePokemonQuery>;
