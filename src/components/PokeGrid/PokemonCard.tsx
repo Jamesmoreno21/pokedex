@@ -33,9 +33,9 @@ export const PokemonCard = ({
   const sprite = pokemon.sprites.front_default || noPokemonImage;
 
   return (
-    <div className="relative bg-white p-4 rounded-md hover:shadow-md transition duration-300 hover:scale-105 w-full shadow-md">
+    <div className="relative bg-white p-4 h-62 rounded-md hover:shadow-md transition duration-300 hover:scale-105 w-full shadow-md">
       <div className=" bg-slate-200 rounded-lg py-2 w-full flex items-center justify-center">
-        <img className="rounded-md h-40 w-auto" src={sprite} alt={pokemon.name} />
+        <img className="rounded-md w-auto h-40" src={sprite} alt={pokemon.name} />
       </div>
 
       <Button
@@ -54,8 +54,8 @@ export const PokemonCard = ({
         />
       </Button>
 
-      <div className="flex justify-between items-center mt-2 border-t-2 border-gray-200 pt-2 flex-wrap text-gray-700">
-        <div className="flex justify-between items-center min-w-2/3 grow">
+      <div className="flex justify-between items-center mt-2 border-t-2 h-1/4 border-gray-200 pt-2 flex-wrap text-gray-700">
+        <div className="flex justify-between items-center w-2/3 grow">
           <img src={pokeball} alt="pokeball" className="w-6 h-6" />
           <p className="text-center font-bold text-lg w-full">
             {parseIdToFourDigits(pokemon.id)}
