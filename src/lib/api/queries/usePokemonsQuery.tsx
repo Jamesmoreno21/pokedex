@@ -17,8 +17,7 @@ interface PokemonQueryOptions
 const fetchPokemon = async ({
   name,
 }: PokemonQueryParams): Promise<PokemonQueryResponse> => {
-  const fetchNumber = fetcher.get(`/pokemon/${name}`);
-  const response = await fetchNumber;
+  const response = await fetcher.get(`/pokemon/${name}`);
   const data = await response.data;
   return data;
 };

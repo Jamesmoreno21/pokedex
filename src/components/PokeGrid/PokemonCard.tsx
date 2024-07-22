@@ -7,6 +7,7 @@ import { capitialize, parseIdToFourDigits } from "../../lib/utils";
 import { CardSkeleton } from "./Skeletons/CardSkeleton";
 import { usePokemonQuery } from "../../lib/api/queries/usePokemonsQuery";
 import noPokemonImage from "../../assets/images/no-pokemon.png";
+import toast from "react-hot-toast";
 
 interface PokemonCardProps {
   pokemonQuery: ReturnType<typeof usePokemonQuery>;
@@ -21,15 +22,24 @@ export const PokemonCard = ({
 }: PokemonCardProps) => {
   const navigate = useNavigate();
   const isLoading = pokemonQuery.isLoading;
+  const isError = pokemonQuery.isError;
   if (isLoading) {
     return <CardSkeleton />;
   }
+
+  if (isError) {
+    toast.error("Failed to fetch pokemon", {
+      id: "fetch-pokemon",
+    });
+    return null;
+  }
+  
   const pokemon = pokemonQuery.data;
 
   const navigateToDetails = () => {
     navigate(`/pokedex/${pokemon?.name}`);
   };
-  const sprite = pokemon?.sprites.front_default || noPokemonImage;
+  const sprite = pokemon?.sprites?.front_default || noPokemonImage;
 
   return (
     <div className="relative bg-white p-4 h-62 rounded-md hover:shadow-md transition duration-300 hover:scale-105 w-full shadow-md">
