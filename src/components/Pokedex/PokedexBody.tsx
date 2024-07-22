@@ -28,7 +28,7 @@ export const PokedexBody = ({ pokemon, description }: PokedexBodyProps) => {
       </div>
       <h3 className="text-lg mt-2 font-bold">Types</h3>
       <div className="flex flex-row justify-start w-full">
-        {pokemon?.types.map((type) => (
+        {pokemon?.types?.map((type) => (
           <TypeBadge key={type?.type?.name} type={type?.type?.name} />
         ))}
       </div>

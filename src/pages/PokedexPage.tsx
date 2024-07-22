@@ -37,8 +37,10 @@ export const PokedexPage = () => {
   const {
     data: pokemonDescription,
     isLoading: isLoadingpokemonDescription,
-    isError: ispokemonDescriptionError,
-  } = usePokemonDescriptionQuery(pokemon?.species?.name || "");
+    isError: isPokemonDescriptionError,
+  } = usePokemonDescriptionQuery(pokemon?.species?.name || "", {
+    enabled: !!pokemon?.species?.name,
+  });
 
   useEffect(() => {
     const favorites = getFavoritePokemons();
@@ -96,7 +98,7 @@ export const PokedexPage = () => {
     );
   }
 
-  if (isError || isInfoError || ispokemonDescriptionError) {
+  if (isError || isInfoError || isPokemonDescriptionError || (!isLoadingpokemonDescription && !pokemonDescription)) {
     toast.error("Error fetching data", { id: "error-fetching-data" });
     navigate("/");
     return <PageLayout>Error</PageLayout>;
