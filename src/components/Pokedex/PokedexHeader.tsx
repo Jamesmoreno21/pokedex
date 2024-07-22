@@ -18,7 +18,7 @@ export const PokedexHeader = ({
   return (
     <>
       <Button
-        className="tooltip tooltip-left tooltip-warning absolute top-2 right-2  text-white p-2 bg-white rounded-full border-2 border-gray-400 z-50"
+        className="tooltip tooltip-left tooltip-warning absolute top-2 right-2  text-white p-2 bg-white rounded-full border-2 border-gray-400 z-30"
         onClick={onFavoriteChange}
         data-tip={isFavorite ? "Remove from favorites" : "Add to favorites"}
       >
