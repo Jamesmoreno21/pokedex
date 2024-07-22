@@ -25,7 +25,7 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="bg-red-700 p-4 flex justify-between items-center w-full sticky z-20 text-white">
+    <nav className="bg-red-700 p-4 flex justify-between items-center w-full sticky top-0 z-50 text-white">
       <h1 className="text-2xl font-bold w-full">Pokedex</h1>
       <div className="flex items-center">
         {!isInLandingPage && (
